@@ -1,4 +1,9 @@
-plugin-typescript
+# plugin-typescript-angular
+
+This is a fork of the excellent TypeScript SystemJS loader by Frank Wallis. It
+is 99% the same code, plus the system JS Angular template loading path
+adjustment mechanism from the Angular QuickStart project.
+
 ============================
 TypeScript loader for SystemJS
 

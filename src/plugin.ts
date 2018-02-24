@@ -7,6 +7,8 @@ import { resolveOptions } from './resolve-options'
 import { transpile } from './transpiler'
 import { isTypescript, isTypescriptDeclaration, isJson, stripDoubleExtension } from './utils'
 
+import { adjustPaths } from './angular-paths';
+
 const logger = new Logger({ debug: false })
 const host = getHost()
 
@@ -74,7 +76,7 @@ export async function translate(load: Module): Promise<string> {
 			load.metadata.sourceMap = JSON.parse(result.sourceMap)
 	}
 
-	return load.source
+	return adjustPaths(loader, load).source;
 }
 
 /*

@@ -1,9 +1,9 @@
 {
-  "name": "plugin-typescript",
+  "name": "@oasisdigital/plugin-typescript-angular",
   "version": "9.0.0",
   "description": "TypeScript loader for SystemJS",
   "main": "lib/plugin.js",
-  "homepage": "https://github.com/frankwallis/plugin-typescript",
+  "homepage": "https://github.com/OasisDigital/plugin-typescript-angular",
   "authors": [
     "Frank Wallis"
   ],
@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/frankwallis/plugin-typescript.git"
+    "url": "https://github.com/OasisDigital/plugin-typescript-angular.git"
   },
   "peerDependencies": {
     "typescript": "^2.4.0"
@@ -62,7 +62,7 @@
     "format": "register",
     "main": "plugin",
     "registry": "github",
-    "name": "frankwallis/plugin-typescript",
+    "name": "oasisdigital/plugin-typescript-angular",
     "peerDependencies": {
       "typescript": "npm:typescript@^2.4.0"
     },
