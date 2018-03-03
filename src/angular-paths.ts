@@ -5,16 +5,21 @@ const templateUrlRegex = /templateUrl\s*:(\s*['"`](.*?)['"`]\s*)/gm;
 const stylesRegex = /styleUrls *:(\s*\[[^\]]*?\])/g;
 const stringRegex = /(['`"])((?:[^\\]\\\1|.)*?)\1/g;
 
-export function adjustPaths(loader: any, load) {
-	const url = new URL(load.address);
+interface Loader {
+	baseURL: string;
+}
+
+export function adjustPaths(loader: Loader, modu: Module) {
+	if (modu.source.indexOf('moduleId') != -1) return modu;
+
+	const url = new URL(modu.address);
 	const basePathParts = url.pathname.split('/');
 	basePathParts.pop();  // remove filename
-	const basePath = basePathParts.join('/'); // absolute path
+	let basePath = basePathParts.join('/'); // absolute path
 	const baseHref = new URL(loader.baseURL).pathname;
-
-	// QuickStart code did this, for some reason:
 	// basePath = basePath.replace(baseHref, '');
-	load.source = load.source
+	modu.source = modu.source || '';
+	modu.source = modu.source
 		.replace(templateUrlRegex, function (match, quote, url) {
 			let resolvedUrl = url;
 			if (url.startsWith('.')) {
@@ -22,11 +27,14 @@ export function adjustPaths(loader: any, load) {
 			}
 			return `templateUrl: '${resolvedUrl}'`;
 		})
-		.replace(stylesRegex, function (match, relativeUrls) {
+		.replace(stylesRegex, function (substr: string, relativeUrls) {
 			const urls = [];
+			let match: RegExpExecArray;
 			while ((match = stringRegex.exec(relativeUrls)) !== null) {
 				if (match[2].startsWith('.')) {
-					urls.push(`'${basePath}${match[2].substr(1)}'`);
+					const adjustedUrl = `'${basePath}${match[2].substr(1)}'`;
+					// console.log(adjustedUrl);
+					urls.push(adjustedUrl);
 				} else {
 					urls.push(`'${match[2]}'`);
 				}
@@ -34,5 +42,5 @@ export function adjustPaths(loader: any, load) {
 			return "styleUrls: [" + urls.join(', ') + "]";
 		});
 
-	return load;
+	return modu;
 };

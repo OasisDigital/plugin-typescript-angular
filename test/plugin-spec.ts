@@ -3,6 +3,8 @@ import chai = require('chai')
 import chaiAsPromised = require('chai-as-promised')
 import * as ts from 'typescript'
 import SystemJS = require('systemjs')
+const { URL } = require('url');
+global['URL'] = URL;
 
 chai.use(chaiAsPromised)
 const should = chai.should()
